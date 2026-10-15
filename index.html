@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>GFA 배너 메이커</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Sans+KR:wght@500;700;900&family=Poppins:wght@300;600;800&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <h1>GFA 배너 메이커<small>브랜드 로고·모델컷·제품컷·문구를 넣으면 네이버 GFA 1200×1200 배너를 시안 5종으로 바로 만들어요. 브랜드별 설정은 프리셋으로 저장해 두고 다음 캠페인에 불러오세요.</small></h1>
+  </header>
+
+  <div class="main">
+    <aside class="rail">
+      <section class="box preset">
+        <h2>브랜드 프리셋</h2>
+        <label class="f" for="presetSel">저장된 브랜드 (고르면 바로 불러와요)
+          <select id="presetSel"><option value="">저장된 프리셋 없음</option></select>
+        </label>
+        <label class="f" for="presetName">프리셋 이름<input type="text" id="presetName" placeholder="예: 브랜드명 · 브랜드데이"></label>
+        <label class="chk" for="presetPhotos"><input type="checkbox" id="presetPhotos"> 모델컷·제품컷도 함께 저장</label>
+        <div class="file">
+          <button class="btn primary sm" id="presetSave" type="button">현재 설정 저장</button>
+          <button class="btn sm" id="presetDel" type="button">선택한 프리셋 삭제</button>
+          <button class="btn sm" id="newBrand" type="button">새 브랜드로 시작</button>
+        </div>
+        <div class="file">
+          <button class="btn sm" id="presetExport" type="button">파일로 내보내기</button>
+          <label class="btn sm" for="presetImport">파일 가져오기<input type="file" id="presetImport" accept=".json,application/json"></label>
+        </div>
+        <p class="msg" id="presetMsg">로고·파트너 로고·컬러·문구·시안 선택이 이 브라우저에 저장돼요. 다른 PC나 다른 담당자와 쓰려면 파일로 내보내 전달하세요.</p>
+      </section>
+
+      <section class="box">
+        <h2>로고</h2>
+        <div class="logos">
+          <div><div class="thumb" id="logoThumb" aria-hidden="true"></div><div class="cap">브랜드</div></div>
+          <div><div class="thumb" id="partnerThumb" aria-hidden="true"></div><div class="cap">파트너</div></div>
+        </div>
+        <div class="file">
+          <label class="btn" for="logoFile">브랜드 로고 올리기<input type="file" id="logoFile" accept="image/*"></label>
+          <button class="btn sm" id="logoClear" type="button">로고 빼기</button>
+        </div>
+        <label class="f" for="npVariant">파트너 로고 (브랜드 × 파트너 형식)
+          <select id="npVariant">
+            <option value="none">사용 안 함 (브랜드 로고만)</option>
+            <option value="orig">N+스토어 · 원본 컬러</option>
+            <option value="black">N+스토어 · 블랙</option>
+            <option value="white">N+스토어 · 화이트 (어두운 배경용)</option>
+            <option value="custom">직접 올린 파트너 로고</option>
+          </select>
+        </label>
+        <div class="file" id="partnerRow" hidden><label class="btn" for="partnerFile">파트너 로고 올리기<input type="file" id="partnerFile" accept="image/*"></label></div>
+        <label class="chk" for="logoWhiteBg"><input type="checkbox" id="logoWhiteBg" checked> 업로드한 로고의 흰 배경 지우기</label>
+      </section>
+
+      <section class="box">
+        <h2>모델컷 <span class="tag" id="modelCount"></span></h2>
+        <div class="thumbs" id="modelThumbs"></div>
+        <div class="file"><label class="btn" for="modelFile">모델컷 추가<input type="file" id="modelFile" accept="image/*" multiple></label></div>
+        <p class="note">첫 번째 컷이 메인 모델로 쓰여요. 9분할 시안 모서리 4칸은 모델컷을 순서대로 채웁니다.</p>
+        <div class="row">
+          <label class="f" for="focusX">메인 모델 가로 위치 <input type="range" id="focusX" min="0" max="100" value="55"></label>
+          <label class="f" for="focusY">메인 모델 세로 위치 <input type="range" id="focusY" min="0" max="100" value="35"></label>
+        </div>
+      </section>
+
+      <section class="box">
+        <h2>제품컷 <span class="tag" id="productCount"></span></h2>
+        <div class="thumbs" id="productThumbs"></div>
+        <div class="file"><label class="btn" for="productFile">제품컷 추가<input type="file" id="productFile" accept="image/*" multiple></label></div>
+        <label class="chk" for="removeBg"><input type="checkbox" id="removeBg" checked> 흰 배경 자동 제거 (흰 배경 제품 사진용)</label>
+        <p class="note">신발은 같은 방향·같은 크기로 바닥선을 맞춰 배치하고 그림자를 넣습니다. 3~5개를 권장해요.</p>
+      </section>
+
+      <section class="box">
+        <h2>문구</h2>
+        <div class="row">
+          <label class="f" for="brandName">브랜드명 (파일 이름용)<input type="text" id="brandName"></label>
+          <label class="f" for="season">시즌<input type="text" id="season"></label>
+        </div>
+        <label class="f" for="title">메인 타이틀<input type="text" id="title"></label>
+        <div class="row">
+          <label class="f" for="headline">24H 시안 헤드라인<input type="text" id="headline"></label>
+          <label class="f" for="oneDay">흩뿌린 시안 상단 문구<input type="text" id="oneDay"></label>
+        </div>
+        <div class="row3">
+          <label class="f" for="percent">할인율 (%)<input type="number" id="percent" min="1" max="99"></label>
+          <label class="f" for="dateEn">날짜 (MM.DD)<input type="text" id="dateEn"></label>
+          <label class="f" for="year">연도<input type="text" id="year"></label>
+        </div>
+        <div class="row">
+          <label class="f" for="dow">요일 (영문)<input type="text" id="dow"></label>
+          <label class="f" for="dateKo">날짜 문구 (한글)<input type="text" id="dateKo"></label>
+        </div>
+        <label class="f" for="cta">버튼 문구<input type="text" id="cta"></label>
+        <label class="f" for="sub">해시태그 문구<input type="text" id="sub"></label>
+        <label class="chk" for="showDatePill"><input type="checkbox" id="showDatePill" checked> 24H 시안에 날짜 배지 넣기</label>
+      </section>
+
+      <section class="box">
+        <h2>스타일</h2>
+        <div class="f">포인트 컬러
+          <div class="swatches" id="accentSwatches"></div>
+        </div>
+        <label class="f" for="titleWeight">타이틀 굵기
+          <select id="titleWeight"><option value="600">세미볼드 (가늘게)</option><option value="800">엑스트라볼드 (굵게)</option></select>
+        </label>
+      </section>
+
+      <section class="box">
+        <h2>만들 시안</h2>
+        <div class="chips" id="layoutChips"></div>
+      </section>
+    </aside>
+
+    <section class="out" aria-live="polite">
+      <div class="bar">
+        <span class="status" id="status">준비 중…</span>
+        <button class="btn primary" id="saveAll" type="button">전체 ZIP 저장</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+  </div>
+  <footer>GFA 배너 메이커 · 이미지는 서버로 전송되지 않고 이 브라우저 안에서만 처리돼요.</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
