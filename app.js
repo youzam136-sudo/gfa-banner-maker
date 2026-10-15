@@ -1,4 +1,4 @@
-const BUILTIN = {np_orig:"samples/nplus-orig.png", np_black:"samples/nplus-black.png", np_white:"samples/nplus-white.png"};
+const BUILTIN = {np_orig:"nplus-orig.png", np_black:"nplus-black.png", np_white:"nplus-white.png"};
 
 const DEFAULTS = {
   brandName:'', season:'26 F/W', title:'BRAND DAY', headline:'24H SALE', oneDay:'ONE DAY ONLY',
